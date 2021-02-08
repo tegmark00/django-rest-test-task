@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
         raise ValidationError(EMAIL_EXISTS)
 
 
-class AuthenticateUserSerializer(serializers.Serializer):
+class AuthenticateJWTUserSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=40)
     password = serializers.CharField(max_length=128)
 
