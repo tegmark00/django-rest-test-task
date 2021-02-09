@@ -1,10 +1,10 @@
 from django.db import models
 
-from website.users.models import User
+from users.models import User
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, related_name='posts')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     text = models.TextField(null=False, blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -17,8 +17,8 @@ class Post(models.Model):
 
 
 class PostLike(models.Model):
-    user = models.ForeignKey(User, related_name='likes')
-    post = models.ForeignKey(Post, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
 
     created_at = models.DateTimeField(auto_now_add=True)
 
