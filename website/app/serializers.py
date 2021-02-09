@@ -13,8 +13,13 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'user']
 
 
-
 class PostLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostLike
         fields = ['post']
+
+
+class PostLikeAnalyticsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostLike
+        fields = '__all__'

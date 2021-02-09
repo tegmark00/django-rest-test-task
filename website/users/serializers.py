@@ -1,5 +1,4 @@
-from abc import ABC
-
+from django.contrib.auth.signals import user_logged_in
 import jwt
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist

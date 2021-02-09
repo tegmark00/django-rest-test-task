@@ -1,9 +1,7 @@
-from __future__ import unicode_literals
 from django.db import models, transaction
 from django.utils import timezone
-from django.contrib.auth.models import (
-    AbstractBaseUser, PermissionsMixin, BaseUserManager
-)
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from datetime import datetime
 
 
 class UserManager(BaseUserManager):
@@ -31,7 +29,6 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
         return self._create_user(email, password=password, **extra_fields)
 
 
@@ -48,6 +45,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    last_api_access_path = models.CharField(max_length=255, blank=True, null=True)
+    last_api_access_date = models.DateTimeField(blank=True, null=True)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -56,5 +56,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
         return self
+
+    def update_last_access(self, path: str):
+        self.last_api_access_path = path
+        self.last_api_access_date = datetime.now().replace(tzinfo=timezone.utc)
+        self.save()
+
 
 
