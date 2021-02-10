@@ -37,7 +37,7 @@ class PostLikeAPIView(generics.GenericAPIView):
         if created:
             return Response(data={'status': 'You liked this post'}, status=status.HTTP_201_CREATED)
         like.delete()
-        return Response(data={'status': 'You unliked this post'}, status=status.HTTP_204_NO_CONTENT)
+        return Response(data={'status': 'You unliked this post'}, status=status.HTTP_201_CREATED)
 
 
 class LikeAnalyticsAPIView(generics.GenericAPIView):

@@ -15,7 +15,7 @@ services:
       - social-network
 
   web:
-    build: ./website/
+    build: ./website
     container_name: rest_web
     command: >
       bash -c "
