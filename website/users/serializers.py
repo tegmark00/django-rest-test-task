@@ -1,4 +1,3 @@
-from django.contrib.auth.signals import user_logged_in
 import jwt
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,7 +10,6 @@ from .constants import AUTH_FAILED, EMAIL_EXISTS
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     date_joined = serializers.ReadOnlyField()
 
     class Meta(object):

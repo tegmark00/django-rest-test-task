@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
             raise ValueError('The given email must be set')
         try:
             with transaction.atomic():
-                user = self.model(email=email, **extra_fields)
+                user = self.model(email=email.lower(), **extra_fields)
                 user.set_password(password)
                 user.save(using=self._db)
                 return user
@@ -53,14 +53,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-    def save(self, *args, **kwargs):
-        super(User, self).save(*args, **kwargs)
-        return self
-
     def update_last_access(self, path: str):
         self.last_api_access_path = path
         self.last_api_access_date = datetime.now().replace(tzinfo=timezone.utc)
         self.save()
+
+
 
 
 
