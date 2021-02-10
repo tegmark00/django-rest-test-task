@@ -2,6 +2,36 @@ version: "3.8"
 
 services:
 
+  nginx:
+    build: ./nginx
+    container_name: rest_nginx
+    ports:
+      - 80:80
+    env_file:
+      - vars.env
+    depends_on:
+      - web
+    networks:
+      - social-network
+
+  web:
+    build: ./website/
+    container_name: rest_web
+    command: >
+      bash -c "
+        yes | python manage.py makemigrations --noinput
+        python manage.py migrate --noinput
+        gunicorn website.wsgi:application --bind 0.0.0.0:8000
+      "
+    depends_on:
+      - db
+    env_file:
+      - vars.env
+    networks:
+      - social-network
+    expose:
+      - 8000
+
   db:
     image: postgres:13
     container_name: db
