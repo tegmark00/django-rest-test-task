@@ -30,4 +30,4 @@ python run.py
 
 # Bot configuration
 
-You may configure some propertities in bot/app/config.py
+You may configure some properties in bot/app/config.py
